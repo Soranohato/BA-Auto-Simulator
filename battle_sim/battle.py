@@ -4,6 +4,7 @@
 # actual to-hit/damage/cover questions to combat.py.
 
 import random
+import time
 
 from .combat import pick_target, roll_damage
 from .cover import get_cover_reduction, CoverObject
@@ -53,6 +54,7 @@ def run_battle(team_a: list[Character], team_b: list[Character],
                 provider.take_damage(absorbed)
                 if provider.is_destroyed:
                     print(f"  >> {provider.name} was destroyed!")
+                    time.sleep(1)
             
             defender.take_damage(reduced_dmg)
             attacker.atb -= ATB_THRESHOLD
@@ -61,9 +63,12 @@ def run_battle(team_a: list[Character], team_b: list[Character],
             cover_tag = f" (covered by {provider.name}, -{int(cover * 100)}%)" if provider else ""
             print(f"[tick {tick}] {attacker.name} hits {defender.name} for {dmg}{crit_tag}{cover_tag} "
                   f"[{defender.name} HP: {defender.hp}/{defender.max_hp}]")
+            time.sleep(1)  # pause so it reads like real time
+
 
             if not defender.is_alive:
                 print(f"  >> {defender.name} is down!")
+                time.sleep(1)
 
     a_alive = any(c.is_alive for c in team_a)
     b_alive = any(c.is_alive for c in team_b)
