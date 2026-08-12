@@ -17,7 +17,7 @@ class CoverObject:
 
     @property
     def is_destroyed(self) -> bool:
-        return self.hp > 0
+        return self.hp <= 0
 
     def take_damage(self, amount: int):
         self.hp = max(0, self.hp - amount)

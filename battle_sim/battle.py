@@ -46,13 +46,13 @@ def run_battle(team_a: list[Character], team_b: list[Character],
             defender = pick_target(attacker, enemies, strategy=target_strategy)
             dmg, crit = roll_damage(attacker, defender)
             cover, provider = get_cover_reduction(defender, cover_objects)
-            reduced_dmg = round(dmg * 1 - cover)
+            reduced_dmg = round(dmg * (1 - cover))
 
             if provider is not None:
                 absorbed = dmg - reduced_dmg # TODO: tune this later
                 provider.take_damage(absorbed)
-                if  not provider.is_destroyed:
-                    print(f"  >> {defender.name} was destroyed!")
+                if provider.is_destroyed:
+                    print(f"  >> {provider.name} was destroyed!")
             
             defender.take_damage(reduced_dmg)
             attacker.atb -= ATB_THRESHOLD
