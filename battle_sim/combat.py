@@ -23,21 +23,20 @@ def roll_damage(attacker: Character, defender: Character) -> tuple[int, bool]:
     dmg = base * variance * (CRIT_MULT if is_crit else 1.0)
     return round(dmg), is_crit
 
+# Returns the living ally providing cover for `defender`, or None.
 
+# Rule (simple v1): a unit standing on its side's back column is covered if
+# a living ally occupies the front column in the same row. Front-column
+# units are never covered - there's nothing in front of them to hide behind.
+
+# Ideas for later, once this feels too simple:
+#   - scale reduction by the provider's remaining HP% (cover gets "weaker"
+#     as the tank gets low)
+#   - let cover be broken/consumed after N hits instead of being permanent
+#   - only apply cover against ranged/back-line attackers, not melee
+#   - give specific characters a "Cover" skill that pulls aggro instead of
+#     this being purely positional
 def find_cover_provider(defender: Character, defender_team: list[Character]) -> Character | None:
-    # Returns the living ally providing cover for `defender`, or None.
-
-    # Rule (simple v1): a unit standing on its side's back column is covered if
-    # a living ally occupies the front column in the same row. Front-column
-    # units are never covered - there's nothing in front of them to hide behind.
-
-    # Ideas for later, once this feels too simple:
-    #   - scale reduction by the provider's remaining HP% (cover gets "weaker"
-    #     as the tank gets low)
-    #   - let cover be broken/consumed after N hits instead of being permanent
-    #   - only apply cover against ranged/back-line attackers, not melee
-    #   - give specific characters a "Cover" skill that pulls aggro instead of
-    #     this being purely positional
     front_x = FRONT_X[defender.side]
     if defender.pos[0] == front_x:
         return None  # already front-line, nothing to cover it
@@ -47,9 +46,8 @@ def find_cover_provider(defender: Character, defender_team: list[Character]) -> 
             return ally
     return None
 
-
+# Returns (damage_reduction_fraction, provider_or_None).
 def get_cover_reduction(defender: Character, defender_team: list[Character]) -> tuple[float, Character | None]:
-    """Returns (damage_reduction_fraction, provider_or_None)."""
     provider = find_cover_provider(defender, defender_team)
     if provider is None:
         return 0.0, None

@@ -20,8 +20,8 @@ def manhattan_distance(pos_a: tuple[int, int], pos_b: tuple[int, int]) -> int:
 
 
 def assign_positions(team: list[Character], side: str):
-    """Front-line roles go to the side's front column, everyone else goes
-    to the back column. Stacks units down the y-axis within their row."""
+    # Front-line roles go to the side's front column, everyone else goes
+    # to the back column. Stacks units down the y-axis within their row.
     y_front = 0
     y_back = 0
     for c in team:
