@@ -5,14 +5,16 @@
 
 import random
 
-from .combat import get_cover_reduction, pick_target, roll_damage
+from .combat import pick_target, roll_damage
+from .cover import get_cover_reduction, CoverObject
 from .characters import Character
 
 ATB_THRESHOLD = 100.0
 
 
 def run_battle(team_a: list[Character], team_b: list[Character],
-                target_strategy, max_ticks: int = 500):
+                target_strategy, cover_objects: list["CoverObject"], 
+                max_ticks: int = 500):
     all_units = team_a + team_b
 
     # small random stagger so units don't all act in lockstep on tick 1
@@ -43,9 +45,16 @@ def run_battle(team_a: list[Character], team_b: list[Character],
 
             defender = pick_target(attacker, enemies, strategy=target_strategy)
             dmg, crit = roll_damage(attacker, defender)
-            cover, provider = get_cover_reduction(defender, enemies)
-            dmg = round(dmg * (1 - cover))
-            defender.take_damage(dmg)
+            cover, provider = get_cover_reduction(defender, cover_objects)
+            reduced_dmg = round(dmg * 1 - cover)
+
+            if provider is not None:
+                absorbed = dmg - reduced_dmg # TODO: tune this later
+                provider.take_damage(absorbed)
+                if  not provider.is_destroyed:
+                    print(f"  >> {defender.name} was destroyed!")
+            
+            defender.take_damage(reduced_dmg)
             attacker.atb -= ATB_THRESHOLD
 
             crit_tag = " (CRIT!)" if crit else ""

@@ -46,6 +46,7 @@ def find_cover_provider(defender: Character, defender_team: list[Character]) -> 
             return ally
     return None
 
+# TODO: DEPRECATED DELETE AFTER CONFIMING THE COVER OBJECT WORKS
 # Returns (damage_reduction_fraction, provider_or_None).
 def get_cover_reduction(defender: Character, defender_team: list[Character]) -> tuple[float, Character | None]:
     provider = find_cover_provider(defender, defender_team)

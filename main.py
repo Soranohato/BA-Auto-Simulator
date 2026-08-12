@@ -1,7 +1,9 @@
-from battle_sim import make_roster, assign_positions, run_battle
+from battle_sim import make_roster, assign_positions, run_battle, make_cover_layout
 
 if __name__ == "__main__":
     roster = make_roster()
+    cover = make_cover_layout()
+    strategy = "random"
 
     team_a = [roster["Hoshino"], roster["Aru"], roster["Hifumi"]]
     team_b = [roster["Iori"], roster["Shiroko"], roster["Yuzu"]]
@@ -13,4 +15,8 @@ if __name__ == "__main__":
     for c in team_a + team_b:
         print(f"  {c.name}: {c.pos} ({c.role})")
 
-    run_battle(team_a, team_b, target_strategy="random")
+    print("Cover Objects:")
+    for obj in cover:
+        print(f"  {obj.name}: {obj.pos}")
+
+    run_battle(team_a, team_b, strategy, cover)
