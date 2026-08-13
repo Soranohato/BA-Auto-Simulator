@@ -14,6 +14,8 @@ class Character:
     pos: tuple[int, int] = (0, 0)
     side: str = ""              # "A" or "B", set by assign_positions
     hp: int = field(init=False)
+    range: int
+    isMoving: bool
     atb: float = field(init=False, default=0.0)
 
     def __post_init__(self):
