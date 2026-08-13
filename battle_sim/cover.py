@@ -4,6 +4,7 @@
 from dataclasses import dataclass
 
 from .characters import Character
+from .grid import euclidean_distance
 
 COVER_DAMAGE_REDUCTION = 0.3  # default reduction; per-object override via `reduction`
 COVER_RADIUS = 0.5
@@ -29,11 +30,13 @@ def make_cover_layout() -> list[CoverObject]:
     manualCoverList = [CoverObject("CoverFA", pos=(2,0), hp=50), CoverObject("CoverBA", pos=(0,1), hp=50), CoverObject("CoverFB", pos=(3,0), hp=50), CoverObject("CoverBB", pos=(5,1), hp=50)]
     return manualCoverList
 
-# determines if a Character is behind cover or not. To be behind cover a Character must occupy
-# the same grid square as the object
+# determines if a Character is behind cover or not. To be behind cover a Character must be
+# within COVER_RADIUS of the coer object
 def find_cover_object(defender: Character, cover_objects: list[CoverObject]) -> CoverObject | None:
+    if defender.isMoving: 
+        return None # cannot be under cover while moving
     for cover in cover_objects:
-        if cover.pos == defender.pos and not cover.is_destroyed:
+        if euclidean_distance(defender, cover.pos) <= COVER_RADIUS and not cover.is_destroyed:
             return cover
     return None
 
@@ -42,4 +45,4 @@ def get_cover_reduction(defender: Character, cover_objects: list[CoverObject]) -
     provider = find_cover_object(defender, cover_objects)
     if provider is None:
         return 0.0, None
-    return COVER_DAMAGE_REDUCTION, provider
+    return provider.reduction, provider

@@ -15,10 +15,6 @@ BACK_X = {"A": 0, "B": 5}
 FRONT_ROLES = {"tank", "striker"}
 MOVE_SPEED = 1.0
 
-#Should not need anymore
-def manhattan_distance(pos_a: tuple[int, int], pos_b: tuple[int, int]) -> int:
-    return abs(pos_a[0] - pos_b[0]) + abs(pos_a[1] - pos_b[1])
-
 def euclidean_distance(pos_a: tuple[float, float], pos_b: tuple[float, float]) -> float:
     return math.dist(pos_a, pos_b)
 

@@ -3,7 +3,7 @@ from battle_sim import make_roster, assign_positions, run_battle, make_cover_lay
 if __name__ == "__main__":
     roster = make_roster()
     cover = make_cover_layout()
-    strategy = "random"
+    strategy = "nearest"
 
     team_a = [roster["Hoshino"], roster["Aru"], roster["Hifumi"]]
     team_b = [roster["Iori"], roster["Shiroko"], roster["Yuzu"]]

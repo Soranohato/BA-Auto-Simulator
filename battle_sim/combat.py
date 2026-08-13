@@ -6,7 +6,7 @@
 
 import random
 
-from .grid import FRONT_X, manhattan_distance
+from .grid import FRONT_X, euclidean_distance
 from .characters import Character
 
 CRIT_CHANCE = 0.15
@@ -51,5 +51,5 @@ def pick_target(attacker: Character, enemies: list[Character], strategy) -> Char
     if strategy == "random":
         return random.choice(living)
     if strategy == "nearest":
-        return min(living, key=lambda e: manhattan_distance(attacker.pos, e.pos))
+        return min(living, key=lambda e: euclidean_distance(attacker.pos, e.pos))
     raise ValueError(f"Unknown target strategy: {strategy}")

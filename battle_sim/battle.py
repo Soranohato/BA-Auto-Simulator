@@ -9,6 +9,7 @@ import time
 from .combat import pick_target, roll_damage
 from .cover import get_cover_reduction, CoverObject
 from .characters import Character
+from .movement import is_in_range, move_toward
 
 ATB_THRESHOLD = 100.0
 
@@ -45,6 +46,12 @@ def run_battle(team_a: list[Character], team_b: list[Character],
                 break
 
             defender = pick_target(attacker, enemies, strategy=target_strategy)
+
+            if not is_in_range(attacker, defender):
+                move_toward(attacker, defender, cover_objects, all_units)
+                attacker.atb -= ATB_THRESHOLD
+                continue
+
             dmg, crit = roll_damage(attacker, defender)
             cover, provider = get_cover_reduction(defender, cover_objects)
             reduced_dmg = round(dmg * (1 - cover))
