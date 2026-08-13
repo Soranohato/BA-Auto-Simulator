@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from .characters import Character
 
 COVER_DAMAGE_REDUCTION = 0.3  # default reduction; per-object override via `reduction`
+COVER_RADIUS = 0.5
 
 
 @dataclass

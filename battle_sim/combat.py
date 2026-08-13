@@ -46,15 +46,6 @@ def find_cover_provider(defender: Character, defender_team: list[Character]) -> 
             return ally
     return None
 
-# TODO: DEPRECATED DELETE AFTER CONFIMING THE COVER OBJECT WORKS
-# Returns (damage_reduction_fraction, provider_or_None).
-def get_cover_reduction(defender: Character, defender_team: list[Character]) -> tuple[float, Character | None]:
-    provider = find_cover_provider(defender, defender_team)
-    if provider is None:
-        return 0.0, None
-    return COVER_DAMAGE_REDUCTION, provider
-
-
 def pick_target(attacker: Character, enemies: list[Character], strategy) -> Character:
     living = [e for e in enemies if e.is_alive]
     if strategy == "random":
