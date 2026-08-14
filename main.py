@@ -2,11 +2,11 @@ from battle_sim import make_roster, assign_positions, run_battle, make_cover_lay
 
 if __name__ == "__main__":
     roster = make_roster()
-    cover = make_cover_layout()
+    cover = make_cover_layout(2, True, 10)
     strategy = "nearest"
 
     team_a = [roster["Hoshino"], roster["Aru"], roster["Hifumi"]]
-    team_b = [roster["Iori"], roster["Shiroko"], roster["Yuzu"]]
+    team_b = [roster["Iori"], roster["Atsuko"], roster["Yuzu"]]
 
     assign_positions(team_a, "A")
     assign_positions(team_b, "B")
