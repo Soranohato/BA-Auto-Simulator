@@ -49,7 +49,8 @@ def run_battle(team_a: list[Character], team_b: list[Character],
 
             if not is_in_range(attacker, defender):
                 move_toward(attacker, defender, cover_objects, all_units)
-                print(f"{attacker.name} moved to {attacker.pos}")
+                print(f"[tick {tick}] {attacker.name} moved to {attacker.pos}")
+                time.sleep(0.5)
                 attacker.atb -= ATB_THRESHOLD
                 continue
 
